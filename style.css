@@ -18,18 +18,19 @@
 }
 
 :root {
-	--background: linear-gradient(190deg, #000000, #083344, #000000);
-	--header: linear-gradient(90deg, #083344, #06b6d4, #f472b6);
-	--btn: linear-gradient(135deg, #22d3ee, #0891b2);
-	--container: linear-gradient(180deg, #0c4a6e, #083344);
-	--second-btn: linear-gradient(135deg, #ec4899, #9d174d);
-	--white: #f0f9ff;
-	--grey: #bae6fd;
-	--dark: #082f49;
-	--dark-second: #0c4a6e;
-	--shadow: rgba(34, 211, 238, 0.3);
-	--ring: #22d3ee;
+	--background: linear-gradient(190deg, #0c0a09 0%, #1c1917 50%, #0c0a09 100%);
+	--header: linear-gradient(90deg, #0c0a09, #292524, #44403c);
+	--btn: linear-gradient(135deg, #eab308, #a16207);
+	--container: linear-gradient(180deg, rgba(41, 37, 36, 0.5), rgba(12, 10, 9, 0.8));
+	--second-btn: linear-gradient(135deg, #44403c, #0c0a09);
+	--border-radius: 8px;
+	--white: #fffcf2;
+	--grey: #a8a29e;
+	--dark: #0c0a09;
+	--dark-second: #1c1917;
+	--border: #fde047;
 }
+
 * {
 	margin: 0;
 	padding: 0;
@@ -100,7 +101,7 @@ main {
 	font-size: 1.5rem;
 	font-weight: 700;
 	color: var(--white);
-	margin: 10px auto;
+	margin: 5px auto;
 }
 
 .txt {
@@ -119,43 +120,13 @@ header {
 	width: 90%;
 	margin: 0 auto;
 	padding: 16px 32px;
+	border-radius: var(--border-radius);
 	background: var(--header);
-	border-radius: 5px;
-	box-shadow: -8px 8px 5px var(--shadow);
+	box-shadow: 0 0 3px 3px var(--border);
 	position: sticky;
 	top: 0;
 	z-index: 150;
 	overflow: hidden;
-}
-
-header::before {
-	content: '';
-	position: absolute;
-	bottom: -20px;
-	left: -20px;
-	width: 70px;
-	height: 70px;
-	border-radius: 50%;
-	background-image: url(./img/roulette.webp);
-	background-repeat: no-repeat;
-	background-size: cover;
-	transition: all 0.3s ease;
-	animation: spinSlow 12s linear infinite;
-	z-index: 100;
-}
-
-header::after {
-	content: '';
-	position: absolute;
-	top: -15px;
-	right: 150px;
-	width: 20px;
-	height: 20px;
-	border-radius: 50%;
-	border: 7px solid var(--white);
-	border-top-color: var(--ring);
-	border-bottom-color: var(--ring);
-	animation: spinSlow 12s linear reverse infinite;
 }
 
 @keyframes spinSlow {
@@ -183,7 +154,6 @@ header::after {
 .inherit-btn {
 	padding: 8px 12px;
 	border: 2px solid var(--second-btn);
-	border-radius: 12px;
 	font-size: 1rem;
 	color: var(--white);
 	font-weight: 700;
@@ -199,29 +169,71 @@ header::after {
 	position: relative;
 	background: var(--second-btn);
 	padding: 8px 12px;
-	border: none;
-	border-radius: 12px;
+	border: 2px solid var(--border);
+	border-radius: var(--border-radius);
 	font-size: 1rem;
 	color: var(--white);
 	font-weight: 700;
 	z-index: 1;
+	transition: all 0.4s ease;
 }
 
-.red-btn::after {
+.red-btn:hover {
+	transform: scale(0.95);
+	box-shadow: 0 0 13px var(--border);
+}
+
+.arrow {
+	position: fixed;
+	top: 50%;
+	right: 2%;
+	width: 2px;
+	height: 120px;
+	background: linear-gradient(
+		to bottom,
+		var(--grey) 0%,
+		var(--grey) 40%,
+		var(--border) 50%,
+		var(--grey) 60%,
+		var(--grey) 100%
+	);
+	background-size: 100% 250%;
+	animation: scroll-flow 0.9s infinite linear;
+}
+
+.arrow::before {
 	content: '';
 	position: absolute;
-	inset: 0;
-	border-radius: inherit;
-	border: 1px solid var(--white);
-	transition:
-		transform 0.35s ease,
-		opacity 0.35s ease;
-	z-index: -1;
+	bottom: 3px;
+	left: -1px;
+	width: 10px;
+	height: 10px;
+	border-left: 2px solid var(--grey);
+	border-bottom: 2px solid var(--grey);
+	transform: rotate(-45deg) translateX(-50%);
+	animation: arrow-glow 0.9s infinite linear;
 }
 
-.red-btn:hover::after {
-	transform: scale(1.15);
-	opacity: 0;
+@keyframes scroll-flow {
+	0% {
+		background-position: 0% 100%;
+	}
+	100% {
+		background-position: 0% 0%;
+	}
+}
+
+@keyframes arrow-glow {
+	0%,
+	80% {
+		border-color: var(--grey);
+	}
+	90% {
+		border-color: var(--border);
+	}
+	100% {
+		border-color: var(--grey);
+	}
 }
 
 .main-banner,
@@ -234,7 +246,7 @@ header::after {
 }
 
 .banner-container {
-	background-image: linear-gradient(90deg, rgba(17, 22, 65, 0.89) 30%, rgba(255, 255, 255, 0) 100%), url(./img/1.webp);
+	background-image: url(./img/1.webp);
 	background-repeat: no-repeat;
 	background-position: 65%;
 	background-size: cover;
@@ -242,8 +254,7 @@ header::after {
 	flex-direction: column;
 	align-items: start;
 	justify-content: space-evenly;
-	padding: 40px;
-	border-radius: 5px;
+	padding: 30px;
 	width: 50%;
 	height: 400px;
 	gap: 20px;
@@ -277,12 +288,11 @@ header::after {
 
 .btn-dep {
 	padding: 4px 14px;
-	border-radius: 10px;
 	font-size: 1rem;
 	background: var(--btn);
 	color: var(--white);
 	font-weight: 800;
-	border: 3px solid var(--btn);
+	border-radius: var(--border-radius);
 	box-shadow:
 		1px 1px 2px var(--btn),
 		0 0 1em var(--btn),
@@ -305,7 +315,6 @@ header::after {
 	padding: 20px;
 	background-size: cover;
 	background-repeat: no-repeat;
-	border-radius: 5px;
 	width: 25%;
 }
 
@@ -314,8 +323,7 @@ header::after {
 	padding: 20px;
 	background-size: cover;
 	background-repeat: no-repeat;
-	border-radius: 5px;
-	width: 35%;
+	width: 25%;
 }
 
 .sb-container {
@@ -326,10 +334,10 @@ header::after {
 	padding: 20px;
 	width: 100%;
 	margin: 0 auto;
+	border-radius: var(--border-radius);
 	background: var(--header);
-	border: 1px solid rgba(255, 255, 255, 0.1);
-	border-radius: 5px;
-	box-shadow: -2px 2px 4px var(--shadow);
+	box-shadow: 0 0 3px var(--white);
+	transition: all 0.5s ease;
 	overflow: hidden;
 	z-index: 1;
 }
@@ -338,8 +346,9 @@ header::after {
 	content: '';
 	position: absolute;
 	inset: 0;
-	background: linear-gradient(90deg, #0891b2, #064e3b, #020617);
+	background: var(--header);
 	opacity: 0;
+	transform: rotate(180deg);
 	transition: opacity 0.6s ease;
 	z-index: -1;
 }
@@ -349,7 +358,9 @@ header::after {
 }
 
 .sb-container:hover {
-	box-shadow: -5px 5px 3px var(--shadow);
+	box-shadow:
+		-3px 3px 3px var(--dark),
+		-6px 6px 3px var(--border);
 }
 
 .sb-container:hover img {
@@ -366,22 +377,28 @@ header::after {
 .banner-bonus-gift,
 .banner-bonus-cash,
 .main-container {
+	border-radius: var(--border-radius);
 	background-color: var(--dark-second);
-	box-shadow: 0 0 11px var(--grey);
 	transition: all 0.3s ease;
+	box-shadow: 0 0 3px 3px var(--border);
 }
 
 .banner-container:hover,
 .banner-bonus-gift:hover,
-.banner-bonus-cash:hover {
-	transform: translateY(2px);
-	box-shadow: -4px 4px 5px var(--shadow);
+.banner-bonus-cash:hover,
+.main-container:hover {
+	animation: pulse 0.7s infinite;
+}
+
+@keyframes pulse {
+	50% {
+		box-shadow: 0 0 10px var(--border);
+	}
 }
 
 .main-container {
 	background: var(--container);
 	padding: 20px 40px;
-	border-radius: 5px;
 }
 
 .popular-games {
@@ -407,7 +424,7 @@ header::after {
 	color: var(--white);
 	font-size: 1rem;
 	min-width: 320px;
-	border-radius: 5px;
+	border-radius: 12px;
 }
 
 td,
@@ -469,7 +486,6 @@ hr {
 	justify-content: space-between;
 	padding: 10px;
 	border: 1px solid var(--white);
-	border-radius: 10px;
 	margin: 10px 0;
 }
 
@@ -483,11 +499,10 @@ hr {
 	header {
 		gap: 10px;
 		width: 100%;
-		border-top-left-radius: 0;
-		border-top-right-radius: 0;
 	}
 
 	main {
+		position: relative;
 		width: 96%;
 		margin: 0 auto;
 	}
